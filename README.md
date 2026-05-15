@@ -40,3 +40,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Deployment
+
+Automatically deployed to GitHub Pages via GitHub Actions.
