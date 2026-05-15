@@ -8,15 +8,6 @@
         </p>
       </div>
 
-      <div class="footer-nav">
-        <h3>Länkar</h3>
-        <ul>
-          <li><RouterLink to="/">Hem</RouterLink></li>
-          <li><RouterLink to="/bilar">Våra Bilar</RouterLink></li>
-          <li><a href="/#om-oss">Om oss</a></li>
-        </ul>
-      </div>
-
       <div class="footer-contact">
         <h3>Kontakt</h3>
         <ul class="contact-list">
@@ -54,7 +45,6 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
 </script>
 
 <style scoped>
@@ -67,7 +57,7 @@ import { RouterLink } from 'vue-router'
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.5fr 1.5fr;
+  grid-template-columns: 1.5fr 1fr 1fr;
   gap: var(--space-lg);
   padding-bottom: var(--space-xl);
 }
@@ -76,7 +66,7 @@ import { RouterLink } from 'vue-router'
   height: 40px;
   width: auto;
   margin-bottom: var(--space-md);
-  filter: brightness(0) invert(1); /* Makes the logo white */
+  filter: brightness(0) invert(1);
 }
 
 .brand-desc {
@@ -91,20 +81,6 @@ h3 {
   color: var(--color-background-white);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-.footer-nav ul li {
-  margin-bottom: var(--space-xs);
-}
-
-.footer-nav ul li a {
-  opacity: 0.7;
-  transition: opacity var(--transition-fast);
-}
-
-.footer-nav ul li a:hover {
-  opacity: 1;
-  color: var(--color-primary);
 }
 
 .contact-list li {
@@ -152,6 +128,7 @@ h3 {
 @media (max-width: 992px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl) var(--space-lg);
   }
 }
 
@@ -159,6 +136,10 @@ h3 {
   .footer-grid {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+  
+  .footer-logo {
+    margin: 0 auto var(--space-md) auto;
   }
   
   .footer-brand, .brand-desc {

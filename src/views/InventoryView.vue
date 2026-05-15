@@ -31,7 +31,7 @@ const filteredCars = computed(() => {
       <div class="container">
         <header class="page-header">
           <h1 class="title">Bilar i lager</h1>
-          <p class="subtitle">Upptäck våra handplockade fordon redo för leverans.</p>
+          <p class="subtitle">Upptäck våra bilar redo för leverans.</p>
         </header>
       </div>
     </div>
