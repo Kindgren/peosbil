@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import BaseButton from '../atoms/BaseButton.vue'
 import BaseBadge from '../atoms/BaseBadge.vue'
 
@@ -24,43 +25,52 @@ const formatPrice = (price: number) => {
 </script>
 
 <template>
-  <article class="car-card">
-    <div class="image-container">
-      <img :src="car.images[0] || '/image.png'" :alt="`${car.make} ${car.model}`" class="car-image" />
-      <div class="card-badges">
-        <BaseBadge variant="dark">{{ car.fuel }}</BaseBadge>
-      </div>
-    </div>
-    
-    <div class="card-content">
-      <div class="title-row">
-        <h3 class="car-title">{{ car.make }} {{ car.model }}</h3>
-        <span class="car-year">{{ car.year }}</span>
-      </div>
-      
-      <p class="car-price">{{ formatPrice(car.price) }}</p>
-      
-      <div class="specs-grid">
-        <div class="spec-item">
-          <span class="spec-label">Mätarställning</span>
-          <span class="spec-value">{{ car.mileage }} mil</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Växellåda</span>
-          <span class="spec-value">{{ car.transmission }}</span>
+  <RouterLink :to="`/bilar/${car.id}`" class="car-card-link">
+    <article class="car-card">
+      <div class="image-container">
+        <img :src="car.images[0] || '/image.png'" :alt="`${car.make} ${car.model}`" class="car-image" />
+        <div class="card-badges">
+          <BaseBadge variant="dark">{{ car.fuel }}</BaseBadge>
         </div>
       </div>
       
-      <div class="card-actions">
-        <BaseButton variant="primary" :to="`/bilar/${car.id}`" class="full-width">
-          Visa detaljer
-        </BaseButton>
+      <div class="card-content">
+        <div class="title-row">
+          <h3 class="car-title">{{ car.make }} {{ car.model }}</h3>
+          <span class="car-year">{{ car.year }}</span>
+        </div>
+        
+        <p class="car-price">{{ formatPrice(car.price) }}</p>
+        
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="spec-label">Mätarställning</span>
+            <span class="spec-value">{{ car.mileage }} mil</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Växellåda</span>
+            <span class="spec-value">{{ car.transmission }}</span>
+          </div>
+        </div>
+        
+        <div class="card-actions">
+          <BaseButton variant="primary" class="full-width">
+            Visa detaljer
+          </BaseButton>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </RouterLink>
 </template>
 
 <style scoped>
+.car-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
 .car-card {
   background: var(--color-background-white);
   border: 1px solid var(--color-border);
@@ -70,9 +80,10 @@ const formatPrice = (price: number) => {
   display: flex;
   flex-direction: column;
   height: 100%;
+  cursor: pointer;
 }
 
-.car-card:hover {
+.car-card-link:hover .car-card {
   transform: translateY(-8px);
   box-shadow: var(--shadow-lg);
   border-color: transparent;
@@ -92,7 +103,7 @@ const formatPrice = (price: number) => {
   transition: transform var(--transition-slow);
 }
 
-.car-card:hover .car-image {
+.car-card-link:hover .car-image {
   transform: scale(1.05);
 }
 
@@ -168,6 +179,11 @@ const formatPrice = (price: number) => {
 
 .card-actions {
   margin-top: auto;
+}
+
+/* We ensure the button doesn't trigger its own navigation since parent handles it */
+.card-actions :deep(.base-button) {
+  pointer-events: none;
 }
 
 .full-width {
