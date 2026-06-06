@@ -1,10 +1,30 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import BaseButton from '../components/atoms/BaseButton.vue'
 import CarCard from '../components/organisms/CarCard.vue'
 import carsData from '../data/cars.json'
 
-const latestCars = ref(carsData.slice(0, 3))
+// Interface för att typa bildatan korrekt i TypeScript
+interface Car {
+  id: string;
+  make: string;
+  model: string;
+  price: number;
+  year: number;
+  mileage: number;
+  transmission: string;
+  fuel: string;
+  location: string;
+  color: string;
+  enginePower: string;
+  bodyType: string;
+  driveType: string;
+  images: string[];
+  equipment: string[];
+}
+
+// Typa om den tomma JSON-datan till en Car-array innan vi kör slice
+const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
 </script>
 
 <template>
@@ -25,8 +45,8 @@ const latestCars = ref(carsData.slice(0, 3))
       </div>
     </section>
 
-    <!-- Latest Cars Section -->
-    <section class="latest-cars">
+    <!-- Latest Cars Section - Döljs helt om lagret är tomt -->
+    <section v-if="latestCars.length > 0" class="latest-cars">
       <div class="container">
         <div class="section-header">
           <div>
@@ -51,7 +71,7 @@ const latestCars = ref(carsData.slice(0, 3))
       <div class="container about-grid">
         <div class="about-image">
           <div class="image-wrapper">
-             <img src="../../public/chevelle.png" alt="Peos Bil" class="actual-image" />
+             <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=1000" alt="Peos Bil" class="actual-image" />
              <div class="image-experience-badge">
                <span class="years">25+</span>
                <span class="label">Års erfarenhet</span>
@@ -61,8 +81,9 @@ const latestCars = ref(carsData.slice(0, 3))
         <div class="about-content">
           <span class="badge">Vår historia</span>
           <h2 class="section-title">Om Peos Bil</h2>
+          
           <div class="about-text">
-            <p>Företaget startade 1996 av Peo Kindgren. Till en början hyrde vi några parkeringsplatser på dåvarande Q8 macken, samt en mindre kontorslokal. Verkstad hade vi i hemmet som då låg några hundra meter bort.</p>
+            <p>Företaget startade 1996 av Peo Kindgren. Till en början hyrde vi några parkeringsplatser på dåvarande Q8 macken, samt en mindre kontorslokal. Verkstad hade vi i hemmet som då ligger några hundra meter bort.</p>
             
             <p>År 2000 revs macken när RV 35 skulle byggas om. Vi köpte då en lokal på Prästängsvägen som vi byggde om till bilhall och bilverkstad med tvätthall och kontor.</p>
             
@@ -70,7 +91,7 @@ const latestCars = ref(carsData.slice(0, 3))
             
             <div class="update-box">
               <h3>Flytt & Ny verksamhet (Jan 2022)</h3>
-              <p>Vi har nu flyttat hem vår verksamhet några kilometer utanför Åtvidaberg (endast tre mil från Linköping). Vi har inga fasta öppettider utan vill att du ringer om du vill titta på någon bil, så kommer vi överens om en tid som passar dig.</p>
+              <p>Vi har nu flyttat hem vår verksamhet några kilometer utanför Åtvidaberg. Vi har inga fasta öppettider utan vill att du ringer om du vill titta på någon bil, så kommer vi överens om en tid som passar dig.</p>
             </div>
           </div>
           
@@ -114,7 +135,6 @@ const latestCars = ref(carsData.slice(0, 3))
   display: flex;
   align-items: center;
   background-color: var(--color-accent);
-  /* Fallback gradient if image fails */
   background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1920');
   background-size: cover;
   background-position: center;
@@ -196,7 +216,7 @@ const latestCars = ref(carsData.slice(0, 3))
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-xl);
-  align-items: center;
+  align-items: flex-start;
 }
 
 .about-image {
@@ -267,9 +287,8 @@ const latestCars = ref(carsData.slice(0, 3))
 .update-box {
   background-color: var(--color-background-light);
   padding: var(--space-md);
-  border-left: 4px solid var(--color-primary);
+  border-radius: 8px;
   margin: var(--space-lg) 0;
-  border-radius: 0 8px 8px 0;
 }
 
 .update-box h3 {

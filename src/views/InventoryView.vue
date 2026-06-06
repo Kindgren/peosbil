@@ -2,11 +2,31 @@
 import { ref, computed } from 'vue'
 import carsData from '../data/cars.json'
 import CarCard from '../components/organisms/CarCard.vue'
+import BaseButton from '../components/atoms/BaseButton.vue'
 
-// Load our static database into a reactive variable
-const cars = ref(carsData)
+// Interface för att typa bildatan korrekt i TypeScript
+interface Car {
+  id: string;
+  make: string;
+  model: string;
+  price: number;
+  year: number;
+  mileage: number;
+  transmission: string;
+  fuel: string;
+  location: string;
+  color: string;
+  enginePower: string;
+  bodyType: string;
+  driveType: string;
+  images: string[];
+  equipment: string[];
+}
 
-// Simple search/filter state
+// Typa om JSON-datan så att ref förstår att det är en Car-array
+const cars = ref<Car[]>(carsData as unknown as Car[])
+
+// Sök- och filter-state
 const searchQuery = ref('')
 const selectedMake = ref('')
 
@@ -31,48 +51,60 @@ const filteredCars = computed(() => {
       <div class="container">
         <header class="page-header">
           <h1 class="title">Bilar i lager</h1>
-          <p class="subtitle">Upptäck våra bilar redo för leverans.</p>
+          <p class="subtitle">Upptäck våra bilar ready för leverans.</p>
         </header>
       </div>
     </div>
 
     <div class="container">
-      <!-- Filter Bar -->
-      <div class="filter-bar">
-        <div class="filter-group">
-          <input 
-            v-model="searchQuery" 
-            type="text" 
-            placeholder="Sök märke eller modell..." 
-            class="filter-input search-input"
-          />
-        </div>
-        <div class="filter-group">
-          <select v-model="selectedMake" class="filter-input select-input">
-            <option value="">Alla märken</option>
-            <option v-for="make in uniqueMakes" :key="make" :value="make">
-              {{ make }}
-            </option>
-          </select>
-        </div>
-        <div class="results-count">
-          Hittade {{ filteredCars.length }} bilar
-        </div>
+      <!-- Fallback om databasen (cars.json) är helt tom [] -->
+      <div v-if="cars.length === 0" class="no-results">
+        <h3>Just nu finns inga bilar i lager</h3>
+        <p>Kontakta gärna Peo direkt om du letar efter något specifikt!</p>
+        <BaseButton variant="primary" href="tel:0703213388">Ring Peo: 070 - 321 33 88</BaseButton>
       </div>
 
-      <div v-if="filteredCars.length > 0" class="car-grid">
-        <CarCard 
-          v-for="car in filteredCars" 
-          :key="car.id" 
-          :car="car" 
-        />
-      </div>
-      
-      <div v-else class="no-results">
-        <h3>Inga bilar matchar din sökning</h3>
-        <p>Prova att ändra dina filter eller sökord.</p>
-        <BaseButton variant="outline" @click="searchQuery = ''; selectedMake = ''">Rensa filter</BaseButton>
-      </div>
+      <!-- Om det finns bilar i JSON, visa filter och sök-gränssnitt -->
+      <template v-else>
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <input 
+              v-model="searchQuery" 
+              type="text" 
+              placeholder="Sök märke eller modell..." 
+              class="filter-input search-input"
+            />
+          </div>
+          <div class="filter-group">
+            <select v-model="selectedMake" class="filter-input select-input">
+              <option value="">Alla märken</option>
+              <option v-for="make in uniqueMakes" :key="make" :value="make">
+                {{ make }}
+              </option>
+            </select>
+          </div>
+          <div class="results-count">
+            Hittade {{ filteredCars.length }} bilar
+          </div>
+        </div>
+
+        <!-- Bil-grid om sökningen ger matchningar -->
+        <div v-if="filteredCars.length > 0" class="car-grid">
+          <CarCard 
+            v-for="car in filteredCars" 
+            :key="car.id" 
+            :car="car" 
+          />
+        </div>
+        
+        <!-- Om sökningen eller filtret ger noll resultat -->
+        <div v-else class="no-results">
+          <h3>Inga bilar matchar din sökning</h3>
+          <p>Prova att ändra dina filter eller sökord.</p>
+          <BaseButton variant="outline" @click="searchQuery = ''; selectedMake = ''">Rensa filter</BaseButton>
+        </div>
+      </template>
     </div>
   </div>
 </template>

@@ -19,10 +19,6 @@
             <span class="label">E-post:</span>
             <a href="mailto:peo.peosbil@outlook.com">peo.peosbil@outlook.com</a>
           </li>
-          <li>
-            <span class="label">Adress:</span>
-            <span>Åtvidaberg (ca 3 mil från Linköping)</span>
-          </li>
         </ul>
       </div>
 

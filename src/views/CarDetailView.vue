@@ -1,15 +1,37 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import carsData from '../data/cars.json'
 import BaseButton from '../components/atoms/BaseButton.vue'
-import BaseBadge from '../components/atoms/BaseBadge.vue'
+
+// 1. Definiera Car-interfacet så TypeScript förstår datastrukturen
+interface Car {
+  id: string;
+  make: string;
+  model: string;
+  price: number;
+  year: number;
+  mileage: number;
+  transmission: string;
+  fuel: string;
+  location: string;
+  color: string;
+  enginePower: string;
+  bodyType: string;
+  driveType: string;
+  images: string[];
+  equipment: string[];
+}
 
 const route = useRoute()
 const carId = route.params.id as string
 
-const car = computed(() => {
-  return carsData.find(c => c.id === carId)
+// Explicit typomvandling av den tomma JSON-datan
+const cars = carsData as unknown as Car[]
+
+// Berätta för TypeScript att car kan vara en Car eller undefined
+const car = computed<Car | undefined>(() => {
+  return cars.find(c => c.id === carId)
 })
 
 const activeImage = ref(0)
@@ -18,6 +40,7 @@ const formatPrice = (price: number) => {
   return new Intl.NumberFormat('sv-SE', { style: 'currency', currency: 'SEK', maximumFractionDigits: 0 }).format(price)
 }
 
+// 2. Säkra upp technicalData så den inte försöker läsa egenskaper på en bil som saknas
 const technicalData = computed(() => {
   if (!car.value) return []
   return [
@@ -37,7 +60,6 @@ const technicalData = computed(() => {
 <template>
   <div v-if="car" class="car-detail-view">
     <div class="container">
-      <!-- Breadcrumbs -->
       <nav class="breadcrumb">
         <RouterLink to="/bilar">Tillbaka till alla bilar</RouterLink>
         <span class="separator">/</span>
@@ -45,7 +67,6 @@ const technicalData = computed(() => {
       </nav>
 
       <div class="detail-grid">
-        <!-- Gallery Section -->
         <div class="gallery-column">
           <div class="main-image">
             <img :src="car.images[activeImage]" :alt="car.model" />
@@ -63,7 +84,6 @@ const technicalData = computed(() => {
           </div>
         </div>
 
-        <!-- Info Column -->
         <div class="info-column">
           <header class="car-header">
             <h1 class="car-title">{{ car.make }} <br /><span>{{ car.model }}</span></h1>
@@ -100,7 +120,6 @@ const technicalData = computed(() => {
         </div>
       </div>
 
-      <!-- Content Tabs/Sections -->
       <div class="more-info">
         <div class="info-section">
           <h2>Teknisk data</h2>
