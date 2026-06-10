@@ -4,7 +4,7 @@ import carsData from '../data/cars.json'
 import CarCard from '../components/organisms/CarCard.vue'
 import BaseButton from '../components/atoms/BaseButton.vue'
 
-// Interface för att typa bildatan korrekt i TypeScript
+// Interface för att typa bildatan korrekt med imagesCount
 interface Car {
   id: string;
   make: string;
@@ -19,7 +19,7 @@ interface Car {
   enginePower: string;
   bodyType: string;
   driveType: string;
-  images: string[];
+  imagesCount: number; // Ändrat från images: string[] för att matcha nya strukturen
   equipment: string[];
 }
 
@@ -57,16 +57,13 @@ const filteredCars = computed(() => {
     </div>
 
     <div class="container">
-      <!-- Fallback om databasen (cars.json) är helt tom [] -->
       <div v-if="cars.length === 0" class="no-results">
         <h3>Just nu finns inga bilar i lager</h3>
         <p>Kontakta gärna Peo direkt om du letar efter något specifikt!</p>
         <BaseButton variant="primary" href="tel:0703213388">Ring Peo: 070 - 321 33 88</BaseButton>
       </div>
 
-      <!-- Om det finns bilar i JSON, visa filter och sök-gränssnitt -->
       <template v-else>
-        <!-- Filter Bar -->
         <div class="filter-bar">
           <div class="filter-group">
             <input 
@@ -89,7 +86,6 @@ const filteredCars = computed(() => {
           </div>
         </div>
 
-        <!-- Bil-grid om sökningen ger matchningar -->
         <div v-if="filteredCars.length > 0" class="car-grid">
           <CarCard 
             v-for="car in filteredCars" 
@@ -98,7 +94,6 @@ const filteredCars = computed(() => {
           />
         </div>
         
-        <!-- Om sökningen eller filtret ger noll resultat -->
         <div v-else class="no-results">
           <h3>Inga bilar matchar din sökning</h3>
           <p>Prova att ändra dina filter eller sökord.</p>

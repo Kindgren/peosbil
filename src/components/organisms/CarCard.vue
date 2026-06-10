@@ -4,19 +4,28 @@ import { RouterLink } from 'vue-router'
 import BaseButton from '../atoms/BaseButton.vue'
 import BaseBadge from '../atoms/BaseBadge.vue'
 
-// Binder props till en konstant för användning i script-blocket
+// Deklarera hela interfacet så det matchar JSON-strukturen exakt
+interface Car {
+  id: string;
+  make: string;
+  model: string;
+  price: number;
+  year: number;
+  mileage: number;
+  transmission: string;
+  fuel: string;
+  location: string;
+  color: string;
+  enginePower: string;
+  bodyType: string;
+  driveType: string;
+  imagesCount: number;
+  equipment: string[];
+}
+
+// Binder props till interfacet
 const props = defineProps<{
-  car: {
-    id: string
-    make: string
-    model: string
-    price: number
-    year: number
-    mileage: number
-    transmission: string
-    fuel: string
-    imagesCount: number // Ändrat från images: string[]
-  }
+  car: Car
 }>()
 
 // Räknar ut sökvägen till kortets huvudbild baserat på id och imagesCount
