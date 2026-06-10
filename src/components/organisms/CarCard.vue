@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import BaseButton from '../atoms/BaseButton.vue'
 import BaseBadge from '../atoms/BaseBadge.vue'
 
-// Define the expected structure of the car prop
-defineProps<{
+// Binder props till en konstant för användning i script-blocket
+const props = defineProps<{
   car: {
     id: string
     make: string
@@ -14,9 +15,17 @@ defineProps<{
     mileage: number
     transmission: string
     fuel: string
-    images: string[]
+    imagesCount: number // Ändrat från images: string[]
   }
 }>()
+
+// Räknar ut sökvägen till kortets huvudbild baserat på id och imagesCount
+const mainCarImage = computed(() => {
+  if (!props.car.id || !props.car.imagesCount) {
+    return '/image.png' // Fallback-sträng om bilddata saknas helt
+  }
+  return `/carImages/${props.car.id}/${props.car.id}_1.jpeg`
+})
 
 // Helper to format currency (e.g., 69500 -> 69 500 kr)
 const formatPrice = (price: number) => {
@@ -28,7 +37,7 @@ const formatPrice = (price: number) => {
   <RouterLink :to="`/bilar/${car.id}`" class="car-card-link">
     <article class="car-card">
       <div class="image-container">
-        <img :src="car.images[0] || '/image.png'" :alt="`${car.make} ${car.model}`" class="car-image" />
+        <img :src="mainCarImage" :alt="`${car.make} ${car.model}`" class="car-image" />
         <div class="card-badges">
           <BaseBadge variant="dark">{{ car.fuel }}</BaseBadge>
         </div>

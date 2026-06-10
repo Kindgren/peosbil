@@ -1,1 +1,23 @@
-[]
+[
+    {
+   "id": "LDT850",
+   "make": "Mini",
+   "model": "Clubman Cooper",
+   "price": 112000,
+   "year": 2016,
+   "mileage": 13809,
+   "transmission": "Manuell",
+   "fuel": "Bensin",
+   "location": "Åtvidaberg",
+   "color": "Grå",
+   "enginePower": "130 ",
+   "bodyType": "Kombi",
+   "driveType": "",
+   "imagesCount": 5,
+   "equipment": [
+     "Motorvärmare",
+     "Vinterdäck",
+     "Full servicebok"
+   ]
+}
+]

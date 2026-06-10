@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 import carsData from '../data/cars.json'
 import BaseButton from '../components/atoms/BaseButton.vue'
 
-// 1. Definiera Car-interfacet så TypeScript förstår datastrukturen
 interface Car {
   id: string;
   make: string;
@@ -19,19 +18,28 @@ interface Car {
   enginePower: string;
   bodyType: string;
   driveType: string;
-  images: string[];
+  imagesCount: number; // Ändrat från images: string[]
   equipment: string[];
 }
 
 const route = useRoute()
 const carId = route.params.id as string
 
-// Explicit typomvandling av den tomma JSON-datan
 const cars = carsData as unknown as Car[]
 
-// Berätta för TypeScript att car kan vara en Car eller undefined
 const car = computed<Car | undefined>(() => {
   return cars.find(c => c.id === carId)
+})
+
+// Skapar bildarrayen dynamiskt utifrån bilens ID och antal bilder i public-mappen
+const carImages = computed<string[]>(() => {
+  if (!car.value || !car.value.imagesCount) return []
+  
+  const images: string[] = []
+  for (let i = 1; i <= car.value.imagesCount; i++) {
+    images.push(`/carImages/${car.value.id}/${car.value.id}_${i}.jpeg`)
+  }
+  return images
 })
 
 const activeImage = ref(0)
@@ -40,7 +48,6 @@ const formatPrice = (price: number) => {
   return new Intl.NumberFormat('sv-SE', { style: 'currency', currency: 'SEK', maximumFractionDigits: 0 }).format(price)
 }
 
-// 2. Säkra upp technicalData så den inte försöker läsa egenskaper på en bil som saknas
 const technicalData = computed(() => {
   if (!car.value) return []
   return [
@@ -69,11 +76,17 @@ const technicalData = computed(() => {
       <div class="detail-grid">
         <div class="gallery-column">
           <div class="main-image">
-            <img :src="car.images[activeImage]" :alt="car.model" />
+            <img 
+              v-if="carImages.length > 0" 
+              :src="carImages[activeImage]" 
+              :alt="car.model" 
+            />
+            <span v-else class="fallback-text" style="color: var(--color-text-muted); display: block; padding: 2rem; text-align: center;">Bild saknas</span>
           </div>
-          <div v-if="car.images.length > 1" class="thumbnail-grid">
+          
+          <div v-if="carImages.length > 1" class="thumbnail-grid">
             <button 
-              v-for="(img, index) in car.images" 
+              v-for="(img, index) in carImages" 
               :key="index"
               class="thumbnail"
               :class="{ active: activeImage === index }"
@@ -149,7 +162,6 @@ const technicalData = computed(() => {
     <BaseButton to="/bilar" variant="primary">Se alla bilar</BaseButton>
   </div>
 </template>
-
 <style scoped>
 .car-detail-view {
   padding: var(--space-lg) 0 var(--space-xl) 0;

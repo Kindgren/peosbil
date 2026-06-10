@@ -4,7 +4,7 @@ import BaseButton from '../components/atoms/BaseButton.vue'
 import CarCard from '../components/organisms/CarCard.vue'
 import carsData from '../data/cars.json'
 
-// Interface för att typa bildatan korrekt i TypeScript
+// Interface för att typa bildatan korrekt med imagesCount
 interface Car {
   id: string;
   make: string;
@@ -19,17 +19,16 @@ interface Car {
   enginePower: string;
   bodyType: string;
   driveType: string;
-  images: string[];
+  imagesCount: number; // Uppdaterad för att matcha nya dynamiska strukturen
   equipment: string[];
 }
 
-// Typa om den tomma JSON-datan till en Car-array innan vi kör slice
+// Typa om den tomma JSON-datan till den uppdaterade Car-arrayen innan vi kör slice
 const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
 </script>
 
 <template>
   <div class="home-view">
-    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-overlay"></div>
       <div class="container hero-content">
@@ -45,7 +44,6 @@ const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
       </div>
     </section>
 
-    <!-- Latest Cars Section - Döljs helt om lagret är tomt -->
     <section v-if="latestCars.length > 0" class="latest-cars">
       <div class="container">
         <div class="section-header">
@@ -66,7 +64,6 @@ const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
       </div>
     </section>
 
-    <!-- About Us Section -->
     <section id="om-oss" class="about-section">
       <div class="container about-grid">
         <div class="about-image">
@@ -85,7 +82,7 @@ const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
           <div class="about-text">
             <p>Företaget startade 1996 av Peo Kindgren. Till en början hyrde vi några parkeringsplatser på dåvarande Q8 macken, samt en mindre kontorslokal. Verkstad hade vi i hemmet som då ligger några hundra meter bort.</p>
             
-            <p>År 2000 revs macken när RV 35 skulle byggas om. Vi köpte då en lokal på Prästängsvägen som vi byggde om till bilhall och bilverkstad med tvätthall och kontor.</p>
+            <p>År 2000 revs macken när RV 35 skulle byggas om. Vi köpte då een lokal på Prästängsvägen som vi byggde om till bilhall och bilverkstad med tvätthall och kontor.</p>
             
             <p>År 2010 tog vi nästa steg och köpte en ny bilhall på Industrigatan. Vi fick då möjligheten att sälja nya Saab, Opel och senare även Nissan genom samarbete med BIVA.</p>
             
@@ -103,7 +100,6 @@ const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
       </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features">
       <div class="container feature-grid">
         <div class="feature-card">
