@@ -14,10 +14,36 @@
    "bodyType": "Kombi",
    "driveType": "Framhjulsdrift",
    "imagesCount": 5,
-   "equipment": [
+"equipment": [
      "Motorvärmare",
      "Vinterdäck",
-     "Full servicebok"
+     "Full servicebok",
+     "12V-uttag",
+     "Airbag fram",
+     "Aircondition",
+     "Antispinn",
+     "Automatisk start/stopp",
+     "AUX-ingång",
+     "Bluetooth",
+     "Centrallås",
+     "Elektriska fönster",
+     "El-sidospeglar m. värme",
+     "ESC",
+     "Farthållare",
+     "Fällbart baksäte",
+     "Färddator",
+     "Isofix",
+     "Klimatanläggning",
+     "LED-ljus",
+     "Ljussensor",
+     "Multifunktionsratt",
+     "Nyckelfri start",
+     "Regnsensor",
+     "Servostyrning",
+     "Sidoairbags",
+     "Självavbländande innerbackspegel",
+     "Sportstolar",
+     "Uppvärmda säten fram"
    ]
 }
 ]
