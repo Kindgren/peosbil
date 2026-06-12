@@ -3,24 +3,7 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import carsData from '../data/cars.json'
 import BaseButton from '../components/atoms/BaseButton.vue'
-
-interface Car {
-  id: string;
-  make: string;
-  model: string;
-  price: number;
-  year: number;
-  mileage: number;
-  transmission: string;
-  fuel: string;
-  location: string;
-  color: string;
-  enginePower: string;
-  bodyType: string;
-  driveType: string;
-  imagesCount: number; // Ändrat från images: string[]
-  equipment: string[];
-}
+import type { Car } from '@/interface/Car.ts'
 
 const route = useRoute()
 const carId = route.params.id as string
@@ -145,12 +128,27 @@ const technicalData = computed(() => {
         </div>
 
         <div class="info-section">
+          <div v-if="car.condition && car.condition.length > 0" class="condition-block" style="margin-bottom: var(--space-xl);">
+            <h2>Skick & Historik</h2>
+            <div class="equipment-list">
+              <div v-for="item in car.condition" :key="item" class="eq-item" style="color: var(--color-text-main); font-weight: 600;">
+                <span class="check" style="color: #2e7d32;">★</span> {{ item }}
+              </div>
+            </div>
+          </div>
+
           <h2>Utrustning</h2>
           <div class="equipment-list">
             <div v-for="item in car.equipment" :key="item" class="eq-item">
               <span class="check">✓</span> {{ item }}
             </div>
           </div>
+
+          <footer class="disclaimer-footer" style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px dashed var(--color-border);">
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); font-style: italic; margin: 0;">
+              * Vi reserverar oss för eventuella felskrivningar i annonstexten och utrustningslistan.
+            </p>
+          </footer>
         </div>
       </div>
     </div>
@@ -162,6 +160,7 @@ const technicalData = computed(() => {
     <BaseButton to="/bilar" variant="primary">Se alla bilar</BaseButton>
   </div>
 </template>
+
 <style scoped>
 .car-detail-view {
   padding: var(--space-lg) 0 var(--space-xl) 0;

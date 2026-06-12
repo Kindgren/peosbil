@@ -3,25 +3,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import BaseButton from '../atoms/BaseButton.vue'
 import BaseBadge from '../atoms/BaseBadge.vue'
-
-// Deklarera hela interfacet så det matchar JSON-strukturen exakt
-interface Car {
-  id: string;
-  make: string;
-  model: string;
-  price: number;
-  year: number;
-  mileage: number;
-  transmission: string;
-  fuel: string;
-  location: string;
-  color: string;
-  enginePower: string;
-  bodyType: string;
-  driveType: string;
-  imagesCount: number;
-  equipment: string[];
-}
+import type { Car } from '@/interface/Car.ts'
 
 // Binder props till interfacet
 const props = defineProps<{

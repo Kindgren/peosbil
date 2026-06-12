@@ -3,25 +3,7 @@ import { ref, computed } from 'vue'
 import carsData from '../data/cars.json'
 import CarCard from '../components/organisms/CarCard.vue'
 import BaseButton from '../components/atoms/BaseButton.vue'
-
-// Interface för att typa bildatan korrekt med imagesCount
-interface Car {
-  id: string;
-  make: string;
-  model: string;
-  price: number;
-  year: number;
-  mileage: number;
-  transmission: string;
-  fuel: string;
-  location: string;
-  color: string;
-  enginePower: string;
-  bodyType: string;
-  driveType: string;
-  imagesCount: number; // Ändrat från images: string[] för att matcha nya strukturen
-  equipment: string[];
-}
+import type { Car } from '@/interface/Car.ts'
 
 // Typa om JSON-datan så att ref förstår att det är en Car-array
 const cars = ref<Car[]>(carsData as unknown as Car[])

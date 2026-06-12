@@ -3,25 +3,7 @@ import { ref } from 'vue'
 import BaseButton from '../components/atoms/BaseButton.vue'
 import CarCard from '../components/organisms/CarCard.vue'
 import carsData from '../data/cars.json'
-
-// Interface för att typa bildatan korrekt med imagesCount
-interface Car {
-  id: string;
-  make: string;
-  model: string;
-  price: number;
-  year: number;
-  mileage: number;
-  transmission: string;
-  fuel: string;
-  location: string;
-  color: string;
-  enginePower: string;
-  bodyType: string;
-  driveType: string;
-  imagesCount: number; // Uppdaterad för att matcha nya dynamiska strukturen
-  equipment: string[];
-}
+import type { Car } from '@/interface/Car.ts'
 
 // Typa om den tomma JSON-datan till den uppdaterade Car-arrayen innan vi kör slice
 const latestCars = ref<Car[]>((carsData as unknown as Car[]).slice(0, 3))
