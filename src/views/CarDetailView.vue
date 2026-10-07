@@ -137,7 +137,7 @@ const technicalData = computed(() => {
             </div>
           </div>
 
-          <h2>Utrustning</h2>
+          <h2 v-if="car.equipment.length>0">Utrustning</h2>
           <div class="equipment-list">
             <div v-for="item in car.equipment" :key="item" class="eq-item">
               <span class="check">✓</span> {{ item }}

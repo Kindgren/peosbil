@@ -1,7 +1,7 @@
 [
   {
     "id": "KTY277",
-    "make": "Mercedes Benz 207",
+    "make": "Mercedes Benz E350 CDI",
     "model": "",
     "price": 88000,
     "year": 2010,
@@ -47,6 +47,26 @@
     ],
     "condition": [
       "Fint skick"
+    ]
+  },
+    {
+    "id": "WKF383",
+    "make": "Chevrolet Aveo",
+    "model": "",
+    "price": 145000,
+    "year": 2005,
+    "mileage": 14900,
+    "transmission": "Manuell",
+    "fuel": "Bensin",
+    "location": "Åtvidaberg",
+    "color": "Silver",
+    "enginePower": "94 HK",
+    "bodyType": "Halvkombi",
+    "driveType": "2WD",
+    "imagesCount": 6,
+    "equipment": [
+    ],
+    "condition": [
     ]
   }
 ]
